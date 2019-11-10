@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.*;
+import java.util.stream.*;
 
 import model.Ladder;
 import model.Player;
@@ -12,21 +13,13 @@ public class LadderGameController {
 	public void run() {
 
 		List<String> playersNames = LadderGameInputView.inputPlayers();
-		List<Player> players = createPlayerList(playersNames);
+        List<Player> players = playersNames.stream().map(Player::new)
+                .collect(Collectors.toList());
 
 		int height = LadderGameInputView.inputLadderHigh();
 		Ladder ladder = new Ladder(height, players.size());
 
 		LadderrGameOutputView.printProcess(height, playersNames, ladder);
-	}
-
-	private List<Player> createPlayerList(List<String> playersName) {
-		List<Player> players = new ArrayList<>();
-		playersName.stream().forEach(i -> {
-			players.add(new Player(i));
-		});
-
-		return players;
 	}
 
 }

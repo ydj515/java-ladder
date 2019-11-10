@@ -13,47 +13,50 @@ public class Line {
 
 	public Line(int playerSize) {
 		points = new ArrayList<>();
-		createLines(playerSize, points);
+		createLines(playerSize);
 	}
 
 	public ArrayList<String> getPoints() {
 		return points;
 	}
 
-	private void createLines(int playerSize, List<String> points) {
+	private void createLines(int playerSize) {
 		IntStream.range(0, 2 * playerSize - 1).forEach(i -> {
-			checkEvenOrOdd(i, points);
+			checkEvenOrOdd(i);
 		});
 	}
 
-	private void checkEvenOrOdd(int index, List<String> points) {
+	private boolean checkEvenOrOdd(int index) {
 
-		if (index % 2 == 0) { // 짝수
-			points.add(PIPE);
-		}
+		String result = (index % 2 == 0) ? addString(PIPE)
+				: checkRandomNumber(RandomNumberGenerator.createNumber(), index);
 
-		else { // 홀수
-			int randomNumber = RandomNumberGenerator.createNumber();
-			checkRandomNumber(randomNumber, points, index);
-		}
+		return Optional.ofNullable(result).isPresent();
 	}
 
-	private void checkRandomNumber(int randomNumber, List<String> points, int index) {
-		if (randomNumber == 1) {
-			if (index == 1) {
-				points.add(HORIZONTAL_LINE);
-			} else if (points.get(index - 2).equals(HORIZONTAL_LINE)) { // 바로 옆에 "-------" 이거 못옴
-				// lines.add("aa");
-				points.add(TAB);
-			} else {
-				points.add(HORIZONTAL_LINE);
-			}
+	private String checkRandomNumber(int randomNumber, int index) {
 
-		}
+		String result = (randomNumber == 1) ? addLine(index) : addString(TAB);
 
-		else {
-			points.add(TAB);
-		}
+		return result;
 	}
 
+	private String addLine(int index) {
+
+		String result = null;
+
+		try {
+			result = points.get(index - 2).equals(HORIZONTAL_LINE) ? addString(TAB) : addString(HORIZONTAL_LINE);
+		} catch (Exception e) {
+			result = addString(HORIZONTAL_LINE);
+		}
+
+		return result;
+	}
+
+	private String addString(String toAddString) {
+		points.add(toAddString);
+
+		return toAddString;
+	}
 }
