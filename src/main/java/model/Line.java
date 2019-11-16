@@ -19,7 +19,7 @@ public class Line {
 	public ArrayList<String> getPoints() {
 		return points;
 	}
-
+  
 	private void createLines(int playerSize) {
 		IntStream.range(0, 2 * playerSize - 1).forEach(i -> {
 			checkEvenOrOdd(i);
