@@ -7,9 +7,9 @@ public class Line {
 
 	private ArrayList<String> points;
 
-	private final String PIPE = "|";
-	private final String TAB = "\t";
-	private final String HORIZONTAL_LINE = "-------";
+	private final String PIPE = LadderString.PIPE();
+	private final String TAB = LadderString.TAB();
+	private final String HORIZONTAL_LINE = LadderString.HORIZONTAL_LINE();
 
 	public Line(int playerSize) {
 		points = new ArrayList<>();
